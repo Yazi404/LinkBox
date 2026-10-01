@@ -1,0 +1,67 @@
+{
+  "name": "link-box",
+  "productName": "Link Box",
+  "version": "1.0.0",
+  "description": "Link Box - save, copy and open your links offline",
+  "author": "Link Box",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder --win --publish never",
+    "build:mac": "electron-builder --mac --publish never",
+    "android:setup": "cap add android && capacitor-assets generate --android",
+    "android:open": "cap sync android && cap open android",
+    "ios:setup": "cap add ios && capacitor-assets generate --ios",
+    "ios:open": "cap sync ios && cap open ios"
+  },
+  "build": {
+    "appId": "com.linkbox.app",
+    "productName": "Link Box",
+    "files": [
+      "main.js",
+      "preload.js",
+      "www/**/*",
+      "build/icon.png"
+    ],
+    "directories": {
+      "buildResources": "build",
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "build/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "shortcutName": "Link Box"
+    },
+    "portable": {
+      "artifactName": "LinkBox-Portable-${version}.exe"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "universal"
+          ]
+        }
+      ],
+      "icon": "build/icon.png",
+      "category": "public.app-category.productivity"
+    }
+  },
+  "devDependencies": {
+    "electron": "^44.5.1",
+    "electron-builder": "^26.15.3",
+    "@capacitor/cli": "^8.5.2",
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/ios": "^8.5.2"
+  }
+}

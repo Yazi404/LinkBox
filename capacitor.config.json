@@ -1,0 +1,8 @@
+{
+  "appId": "com.linkbox.app",
+  "appName": "Link Box",
+  "webDir": "www",
+  "android": {
+    "backgroundColor": "#2F7BFF"
+  }
+}
