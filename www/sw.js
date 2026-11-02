@@ -1,5 +1,5 @@
 // Link Box offline cache. Bump the version when you change the app files.
-const CACHE = "linkbox-v1";
+const CACHE = "linkbox-v2";
 const FILES = [
   "./",
   "./index.html",

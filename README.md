@@ -34,6 +34,19 @@ Mac: open the `.dmg` and drag Link Box into Applications. The first time, right-
 
 ---
 
+## Sharing links with other people
+
+Sharing works through WhatsApp, email, Teams or any other app, so the other person can be anywhere in the world.
+
+- **SHARE (on each link)** sends a message with both titles, the link, and an "Add to Link Box" line. The other person can open the link straight away, even without Link Box. On phones this opens the normal share menu; on Windows / Mac you choose WhatsApp, Email or Copy.
+- **SHARE LIST / Share links** lets you tick several links (or all of them) and sends them as one small `.json` file. On Windows / Mac the file is saved first so you can attach it.
+- **IMPORT / Import links** opens a file you were sent. Links you already have are skipped.
+- **Tap-to-add:** tapping the "Add to Link Box" line opens the online Link Box with the link ready to save. To save it in the installed app instead, tap OPEN IN APP, or copy the line and paste it into the Link box of ADD NEW LINK — the titles fill in by themselves.
+
+The "Add to Link Box" line uses your GitHub Pages address, which the GitHub build fills in automatically. Pages must be switched on (Settings → Pages → Source: GitHub Actions). If you build on your own computer instead, run `node scripts/set-web-url.js <github-name> <repository-name>` first, or the line will use a `linkbox://` address that only works when pasted into Link Box.
+
+---
+
 ## Try it right now
 Double-click `www/index.html` on Windows or Mac. It works offline in your browser.
 
@@ -59,11 +72,14 @@ With a free Apple ID, the app stops opening after 7 days and has to be run from 
 ---
 
 ## Updating the app
-Change `www/index.html`. If you use the iPhone/web version, also raise the number in `www/sw.js` (`linkbox-v1` → `linkbox-v2`) so phones pick up the change. Upload the files to GitHub again and the workflow rebuilds everything.
+Change `www/index.html`. If you use the iPhone/web version, also raise the number in `www/sw.js` (for example `linkbox-v2` → `linkbox-v3`) so phones pick up the change. Upload the files to GitHub again and the workflow rebuilds everything.
+
+Installing a new version over the old one keeps your saved links (Android: install the new .apk over the old app, don't uninstall first).
 
 ## Files
 - `www/` – the app itself (`index.html`), plus offline files for the iPhone/web version
 - `main.js`, `preload.js` – Windows / Mac wrapper
 - `capacitor.config.json`, `assets/` – Android and iOS wrapper and icons
 - `build/icon.png` – Windows / Mac icon
+- `scripts/` – fills in the share-link address, and lets the Android / iPhone apps open `linkbox://` links
 - `.github/workflows/build-apps.yml` – the GitHub cloud build

@@ -39,8 +39,10 @@ body{
 }
 button,input{font:inherit;color:inherit}
 button{cursor:pointer}
+button:disabled{cursor:not-allowed;opacity:.45}
 :focus-visible{outline:3px solid #000;outline-offset:2px}
 svg{flex-shrink:0}
+[hidden]{display:none !important}
 
 .app{display:flex;height:100%}
 
@@ -48,9 +50,11 @@ svg{flex-shrink:0}
 .sidebar{width:280px;flex-shrink:0;padding:32px 20px;display:flex;flex-direction:column;gap:32px;background:rgba(255,255,255,.62);border-right:1px solid rgba(0,0,0,.12)}
 .logo{display:flex;align-items:center;gap:10px;padding:0 8px;font-family:"LB Logo","Plex Arabic",sans-serif;font-weight:700;font-size:28px}
 .nav{display:flex;flex-direction:column;gap:6px}
-.nav-btn{display:flex;align-items:center;justify-content:space-between;height:48px;padding:0 16px;border:none;border-radius:12px;background:transparent;font-size:16px;font-weight:400}
+.nav-btn{display:flex;align-items:center;justify-content:space-between;height:48px;padding:0 16px;border:none;border-radius:12px;background:transparent;font-size:16px;font-weight:400;text-align:left}
 .nav-btn[aria-current="page"]{background:#fff;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.1)}
 .nav-btn:hover{background:rgba(255,255,255,.7)}
+.side-tools{padding-top:16px;border-top:1px solid rgba(0,0,0,.14)}
+.side-tools .nav-btn{justify-content:flex-start;gap:12px}
 .spacer{flex-grow:1}
 .btn-add{display:flex;align-items:center;justify-content:center;gap:8px;height:52px;border:2px solid #000;border-radius:12px;background:var(--green);font-size:15px;font-weight:700;letter-spacing:.04em}
 .btn-add:hover{filter:brightness(1.05)}
@@ -71,7 +75,7 @@ svg{flex-shrink:0}
 .row-bottom{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
 .url{font-size:16px;color:var(--link);text-decoration:underline;word-break:break-all}
 .url:visited{color:var(--visited)}
-.actions{display:flex;align-items:center;gap:10px}
+.actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .btn{display:flex;align-items:center;gap:8px;height:44px;padding:0 16px;border:2px solid #000;border-radius:10px;background:#fff;font-size:13px;font-weight:700;letter-spacing:.05em;white-space:nowrap}
 .btn:hover{background:#f2f2f2}
 .btn-open{background:var(--green)}
@@ -89,7 +93,10 @@ svg{flex-shrink:0}
 @media (max-width:799px){
   body{background:linear-gradient(170deg,#2F7BFF 0%,#00E5FF 45%,#1CF58F 100%) fixed}
   .sidebar{display:none}
-  .mobile-header{display:flex;align-items:center;gap:8px;padding:calc(20px + var(--sat)) 20px 0;font-family:"LB Logo","Plex Arabic",sans-serif;font-weight:700;font-size:20px}
+  .mobile-header{display:flex;align-items:center;gap:8px;padding:calc(20px + var(--sat)) 16px 0 20px}
+  .mobile-logo{display:flex;align-items:center;gap:8px;font-family:"LB Logo","Plex Arabic",sans-serif;font-weight:700;font-size:20px}
+  .head-tools{display:flex;gap:6px;margin-left:auto}
+  .pill{display:flex;align-items:center;gap:6px;height:40px;padding:0 12px;border:2px solid #000;border-radius:20px;background:rgba(255,255,255,.85);font-size:12px;font-weight:700;letter-spacing:.04em;white-space:nowrap}
   .page-head{padding:8px 20px 16px}
   .page-head h1{font-size:28px}
   .scroll{padding:0 12px}
@@ -100,6 +107,7 @@ svg{flex-shrink:0}
   .t-en,.t-ar{font-size:17px}
   .row-bottom{flex-direction:column;align-items:stretch;gap:10px}
   .url{font-size:15px}
+  .actions{flex-wrap:nowrap;gap:8px}
   .btn{border-radius:22px;padding:0 14px;font-size:12px}
   .actions .btn:not(.btn-icon-mobile){flex:1 1 0;justify-content:center;padding:0 8px}
   .actions .btn:not(.btn-icon-mobile) svg{display:none}
@@ -113,22 +121,48 @@ svg{flex-shrink:0}
   .tab-add{display:flex;align-items:center;justify-content:center;width:60px;height:60px;margin-top:-30px;border:2px solid #000;border-radius:30px;background:var(--green);box-shadow:0 6px 16px rgba(0,0,0,.2)}
   .empty{margin:0}
 }
+@media (max-width:359px){
+  .pill .lbl{display:none}
+  .pill{width:40px;padding:0;justify-content:center}
+}
 
-/* Add dialog */
-dialog{width:min(480px,calc(100vw - 32px));padding:0;border:2px solid #000;border-radius:18px;background:#fff;color:#000}
+/* Dialogs */
+dialog{width:min(480px,calc(100vw - 32px));max-height:calc(100vh - 32px);padding:0;border:2px solid #000;border-radius:18px;background:#fff;color:#000;overflow:auto}
 dialog::backdrop{background:rgba(0,20,60,.45)}
 .dlg{display:flex;flex-direction:column;gap:16px;padding:24px}
 .dlg h2{margin:0;font-size:22px}
+.dlg .sub{margin:-6px 0 0;font-size:15px;line-height:1.5}
 .field{display:flex;flex-direction:column;gap:6px}
 .field label{font-size:14px;font-weight:700}
 .field input{height:48px;padding:0 12px;border:2px solid #000;border-radius:10px;background:#fff;font-size:16px}
 .field input[dir="rtl"]{text-align:right}
-.hint{font-size:13px}
+.hint{font-size:13px;line-height:1.45}
+.note{margin:0;font-size:14px;font-weight:700}
 .error{min-height:20px;margin:0;font-size:14px;font-weight:700;color:#B00020}
-.dlg-actions{display:flex;justify-content:flex-end;gap:10px}
+.dlg-actions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+.bridge{display:flex;flex-direction:column;gap:10px;padding-top:14px;border-top:1px solid rgba(0,0,0,.15);font-size:14px;line-height:1.45}
+.bridge p{margin:0}
+.bridge .dlg-actions{justify-content:flex-start}
+
+.share-preview{margin:0;padding:12px 14px;border-radius:10px;background:rgba(0,0,0,.05);font-family:inherit;font-size:14px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;max-height:220px;overflow:auto}
+.share-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.share-actions .btn{justify-content:center;padding:0 8px}
+
+.pick-tools{display:flex;gap:16px}
+.linkish{height:36px;padding:0;border:none;background:none;font-size:14px;font-weight:700;text-decoration:underline}
+.pick-list{list-style:none;margin:0;padding:0;max-height:min(50vh,380px);overflow:auto;border:2px solid rgba(0,0,0,.15);border-radius:12px}
+.pick-list li + li{border-top:1px solid rgba(0,0,0,.1)}
+.pick-item{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;padding:12px 14px;cursor:pointer}
+.pick-item input{width:22px;height:22px;margin:2px 0 0;accent-color:#000}
+.pick-item.is-off{cursor:default;opacity:.6}
+.pick-text{display:flex;flex-direction:column;gap:2px;min-width:0}
+.pick-en,.pick-ar{font-size:15px;font-weight:700;overflow-wrap:anywhere}
+.pick-ar{text-align:right}
+.pick-url{font-size:13px;color:var(--link);word-break:break-all}
+.tag{align-self:flex-start;margin-top:2px;padding:2px 8px;border-radius:6px;background:rgba(0,0,0,.08);font-size:12px;font-weight:700}
 
 /* Toast */
-.toast{position:fixed;left:50%;bottom:calc(32px + var(--sab));transform:translate(-50%,20px);padding:12px 20px;border-radius:12px;background:#fff;border:2px solid #000;font-weight:700;font-size:15px;opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;z-index:10}
+.toast{position:fixed;left:50%;bottom:calc(32px + var(--sab));max-width:calc(100vw - 32px);transform:translate(-50%,20px);padding:12px 20px;border-radius:12px;background:#fff;border:2px solid #000;font-weight:700;font-size:15px;text-align:center;opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;z-index:10}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 @media (max-width:799px){.toast{bottom:calc(100px + var(--sab))}}
 @media (prefers-reduced-motion:reduce){.toast{transition:none}}
@@ -145,6 +179,16 @@ dialog::backdrop{background:rgba(0,20,60,.45)}
       <button class="nav-btn" data-view="links"><span>All Links</span><span data-count="links">0</span></button>
       <button class="nav-btn" data-view="archive"><span>Archive</span><span data-count="archive">0</span></button>
     </nav>
+    <div class="nav side-tools">
+      <button class="nav-btn" data-action="share-list">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg>
+        Share links
+      </button>
+      <button class="nav-btn" data-action="import">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/><path d="M8 10l4 4 4-4"/><path d="M12 14V3"/></svg>
+        Import links
+      </button>
+    </div>
     <div class="spacer"></div>
     <button class="btn-add" data-action="add">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
@@ -154,8 +198,20 @@ dialog::backdrop{background:rgba(0,20,60,.45)}
 
   <div class="main">
     <header class="mobile-header">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg>
-      Link Box
+      <div class="mobile-logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg>
+        Link Box
+      </div>
+      <div class="head-tools">
+        <button class="pill" data-action="share-list" aria-label="Share list">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg>
+          <span class="lbl">SHARE LIST</span>
+        </button>
+        <button class="pill" data-action="import" aria-label="Import">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/><path d="M8 10l4 4 4-4"/><path d="M12 14V3"/></svg>
+          <span class="lbl">IMPORT</span>
+        </button>
+      </div>
     </header>
     <div class="page-head">
       <h1 id="viewTitle">All Links</h1>
@@ -187,9 +243,11 @@ dialog::backdrop{background:rgba(0,20,60,.45)}
   </div>
 </div>
 
+<!-- Add a link (also used for links shared by someone else) -->
 <dialog id="addDialog" aria-labelledby="addTitle">
   <form class="dlg" id="addForm" method="dialog" novalidate>
     <h2 id="addTitle">Add new link</h2>
+    <p class="sub" id="addSub" hidden>Someone shared this link with you. Check it, then save it to your Link Box.</p>
     <div class="field">
       <label for="fEn">Title (English)</label>
       <input id="fEn" type="text" autocomplete="off" placeholder="e.g. Bayan Customs Portal">
@@ -201,16 +259,60 @@ dialog::backdrop{background:rgba(0,20,60,.45)}
     <div class="field">
       <label for="fUrl">Link</label>
       <input id="fUrl" type="url" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://">
-      <span class="hint">Links longer than 30 characters are shortened in the list.</span>
+      <span class="hint">Links longer than 30 characters are shortened in the list. Got a Link Box share link? Paste it here and the titles fill in.</span>
     </div>
+    <p class="note" id="addNote" hidden>Filled in from a shared Link Box link.</p>
     <p class="error" id="formError" role="alert"></p>
     <div class="dlg-actions">
       <button type="button" class="btn btn-quiet" id="cancelAdd">CANCEL</button>
       <button type="submit" class="btn btn-open" id="saveAdd">SAVE LINK</button>
     </div>
+    <div class="bridge" id="appBridge" hidden>
+      <p><b>Saving it in the installed Link Box app instead?</b> Tap OPEN IN APP. If nothing happens, tap COPY FOR APP, then in the app tap ADD NEW LINK and paste into the Link box.</p>
+      <div class="dlg-actions">
+        <button type="button" class="btn btn-quiet" id="bridgeOpen">OPEN IN APP</button>
+        <button type="button" class="btn btn-quiet" id="bridgeCopy">COPY FOR APP</button>
+      </div>
+    </div>
   </form>
 </dialog>
 
+<!-- Share one link (Windows / Mac, where there's no system share menu) -->
+<dialog id="shareDialog" aria-labelledby="shareTitle">
+  <div class="dlg">
+    <h2 id="shareTitle">Share link</h2>
+    <p class="sub">The person can open the link straight away, or tap the Link Box line to save it in their own Link Box.</p>
+    <pre class="share-preview" id="sharePreview"></pre>
+    <div class="share-actions">
+      <button type="button" class="btn btn-open" id="shareWhatsapp">WHATSAPP</button>
+      <button type="button" class="btn" id="shareEmail">EMAIL</button>
+      <button type="button" class="btn" id="shareCopy">COPY</button>
+    </div>
+    <div class="dlg-actions">
+      <button type="button" class="btn btn-quiet" id="shareClose">CLOSE</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- Choose links: share a list as a file, or import a file -->
+<dialog id="pickDialog" aria-labelledby="pickTitle">
+  <form class="dlg" id="pickForm" novalidate>
+    <h2 id="pickTitle"></h2>
+    <p class="sub" id="pickText"></p>
+    <div class="pick-tools" id="pickTools">
+      <button type="button" class="linkish" id="pickAll">Select all</button>
+      <button type="button" class="linkish" id="pickNone">Clear</button>
+    </div>
+    <ul class="pick-list" id="pickList"></ul>
+    <p class="error" id="pickError" role="alert"></p>
+    <div class="dlg-actions">
+      <button type="button" class="btn btn-quiet" id="pickCancel">CANCEL</button>
+      <button type="submit" class="btn btn-open" id="pickGo"></button>
+    </div>
+  </form>
+</dialog>
+
+<input type="file" id="importFile" hidden>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -220,16 +322,28 @@ dialog::backdrop{background:rgba(0,20,60,.45)}
   var STORE_KEY = "linkbox.v1";
   var MAX_SHOWN = 30;
   var ALLOWED = ["http:", "https:", "ftp:", "mailto:"];
+  // Web address of the online Link Box. Filled in automatically by the GitHub build.
+  var WEB_URL = "__LINKBOX_WEB_URL__";
 
   var ICONS = {
     copy: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>',
     open: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3h7v7"/><path d="M10 14 21 3"/><path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg>',
+    share: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></svg>',
     archive: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="5" rx="1"/><path d="M5 9v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9"/><path d="M10 13h4"/></svg>',
     restore: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>',
     trash: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M6 6l1 14h10l1-14"/></svg>'
   };
 
   var state = { view: "links", links: [] };
+
+  /* ---------- where we're running ---------- */
+  function isDesktopApp() { return !!(window.linkbox && window.linkbox.openExternal); }
+  function isNativeApp() {
+    var cap = window.Capacitor;
+    return !!(cap && cap.isNativePlatform && cap.isNativePlatform());
+  }
+  function plugins() { return isNativeApp() ? (window.Capacitor.Plugins || {}) : {}; }
+  function isWebVersion() { return !isDesktopApp() && !isNativeApp(); }
 
   /* ---------- storage ---------- */
   function load() {
@@ -256,7 +370,7 @@ dialog::backdrop{background:rgba(0,20,60,.45)}
     return url.length > MAX_SHOWN ? url.slice(0, MAX_SHOWN) + "…" : url;
   }
   function normaliseUrl(input) {
-    var v = input.trim();
+    var v = String(input || "").trim();
     if (!v) return { error: "Enter the link." };
     if (!/^[a-z][a-z0-9+.-]*:/i.test(v)) v = "https://" + v;
     var u;
@@ -268,32 +382,97 @@ dialog::backdrop{background:rgba(0,20,60,.45)}
   function isSafe(url) {
     try { return ALLOWED.indexOf(new URL(url).protocol) !== -1; } catch (e) { return false; }
   }
+  function cleanTitle(v) { return String(v == null ? "" : v).trim().slice(0, 300); }
   function uid() {
     return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
   }
+  function findByUrl(url) {
+    for (var i = 0; i < state.links.length; i++) if (state.links[i].url === url) return state.links[i];
+    return null;
+  }
+  function dateStamp() {
+    var d = new Date();
+    var p = function (n) { return (n < 10 ? "0" : "") + n; };
+    return p(d.getDate()) + "." + p(d.getMonth() + 1) + "." + d.getFullYear();
+  }
+  function isCancel(err) {
+    var m = err && (err.message || err.errorMessage || String(err));
+    return (err && err.name === "AbortError") || /cancel/i.test(m || "");
+  }
 
   var toastTimer;
-  function toast(msg) {
+  function toast(msg, ms) {
     var t = document.getElementById("toast");
     t.textContent = msg;
     t.classList.add("show");
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { t.classList.remove("show"); }, 1800);
+    toastTimer = setTimeout(function () { t.classList.remove("show"); }, ms || 1800);
   }
 
-  /* ---------- platform actions ---------- */
-  function copyLink(url) {
-    var done = function () { toast("Link copied"); };
-    var fail = function () { toast("Couldn't copy the link"); };
-    if (window.linkbox && window.linkbox.copyText) {            // Windows / Mac app
-      window.linkbox.copyText(url).then(done, fail);
+  function showDialog(d) { if (typeof d.showModal === "function") d.showModal(); else d.setAttribute("open", ""); }
+  function hideDialog(d) { if (typeof d.close === "function") d.close(); else d.removeAttribute("open"); }
+
+  /* ---------- share codes (Option 3: tap-to-add links) ---------- */
+  function toB64Url(str) {
+    var bytes = new TextEncoder().encode(str), bin = "";
+    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  }
+  function fromB64Url(s) {
+    s = s.replace(/-/g, "+").replace(/_/g, "/");
+    while (s.length % 4) s += "=";
+    var bin = atob(s), bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+  }
+  function webBase() {
+    if (WEB_URL.indexOf("__") !== 0) return WEB_URL;
+    if (isWebVersion() && /^https?:$/.test(location.protocol)) return location.origin + location.pathname;
+    return null;
+  }
+  function shareCode(item) {
+    return toB64Url(JSON.stringify({ v: 1, en: item.en || "", ar: item.ar || "", url: item.url }));
+  }
+  function shareAddress(item) {
+    var base = webBase();
+    return base ? base.split("#")[0] + "#add=" + shareCode(item) : "linkbox://add?d=" + shareCode(item);
+  }
+  function appAddress(code) { return "linkbox://add?d=" + code; }
+  // Finds a Link Box share link anywhere in some text and returns the link it carries.
+  function parseShared(text) {
+    var m = /(?:#add=|linkbox:\/\/add\/?\?d=)([A-Za-z0-9_-]+)/.exec(String(text || ""));
+    if (!m) return null;
+    try {
+      var d = JSON.parse(fromB64Url(m[1]));
+      if (!d || typeof d.url !== "string") return null;
+      var res = normaliseUrl(d.url);
+      if (res.error) return null;
+      return { en: cleanTitle(d.en), ar: cleanTitle(d.ar), url: res.url, code: m[1] };
+    } catch (e) {
+      return null;
+    }
+  }
+  function shareMessage(item) {
+    var lines = [];
+    if (item.en) lines.push(item.en);
+    if (item.ar) lines.push(item.ar);
+    lines.push(item.url, "", "Add to Link Box: " + shareAddress(item));
+    return lines.join("\n");
+  }
+
+  /* ---------- copy / open ---------- */
+  function copyText(text, okMsg) {
+    var done = function () { toast(okMsg || "Copied"); };
+    var fail = function () { toast("Couldn't copy"); };
+    if (isDesktopApp() && window.linkbox.copyText) {
+      window.linkbox.copyText(text).then(done, fail);
       return;
     }
     if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(url).then(done, function () { legacyCopy(url) ? done() : fail(); });
+      navigator.clipboard.writeText(text).then(done, function () { legacyCopy(text) ? done() : fail(); });
       return;
     }
-    legacyCopy(url) ? done() : fail();
+    legacyCopy(text) ? done() : fail();
   }
   function legacyCopy(text) {
     var ta = document.createElement("textarea");
@@ -308,18 +487,241 @@ dialog::backdrop{background:rgba(0,20,60,.45)}
     document.body.removeChild(ta);
     return ok;
   }
+  function openExternal(url) {
+    if (isDesktopApp()) { window.linkbox.openExternal(url); return; }   // Windows / Mac → default browser
+    if (isNativeApp()) { window.location.href = url; return; }           // Android / iPhone app → default browser
+    window.open(url, "_blank", "noopener");
+  }
   function openLink(url) {
     if (!isSafe(url)) { toast("This link can't be opened"); return; }
-    if (window.linkbox && window.linkbox.openExternal) {        // Windows / Mac app → default browser
-      window.linkbox.openExternal(url);
+    openExternal(url);
+  }
+
+  /* ---------- Option 1: share one link ---------- */
+  var shareDlg = document.getElementById("shareDialog");
+  var currentShare = null;
+
+  function shareLink(item) {
+    var text = shareMessage(item);
+    var subject = item.en || item.ar || "Link";
+    var P = plugins();
+    if (P.Share) {                                                        // Android / iPhone app
+      P.Share.share({ title: subject, text: text, dialogTitle: "Share link" }).catch(function (e) {
+        if (!isCancel(e)) openShareDialog(item, text);
+      });
       return;
     }
-    var cap = window.Capacitor;
-    if (cap && cap.isNativePlatform && cap.isNativePlatform()) { // Android app → default browser
-      window.location.href = url;
+    if (isWebVersion() && navigator.share) {                              // phone browsers / home-screen app
+      navigator.share({ title: subject, text: text }).catch(function (e) {
+        if (!isCancel(e)) openShareDialog(item, text);
+      });
       return;
     }
-    window.open(url, "_blank", "noopener");
+    openShareDialog(item, text);                                          // Windows / Mac
+  }
+  function openShareDialog(item, text) {
+    currentShare = { subject: item.en || item.ar || "Link", text: text };
+    document.getElementById("sharePreview").textContent = text;
+    showDialog(shareDlg);
+  }
+  document.getElementById("shareWhatsapp").addEventListener("click", function () {
+    openExternal("https://wa.me/?text=" + encodeURIComponent(currentShare.text));
+    hideDialog(shareDlg);
+  });
+  document.getElementById("shareEmail").addEventListener("click", function () {
+    openExternal("mailto:?subject=" + encodeURIComponent(currentShare.subject) + "&body=" + encodeURIComponent(currentShare.text));
+    hideDialog(shareDlg);
+  });
+  document.getElementById("shareCopy").addEventListener("click", function () {
+    copyText(currentShare.text, "Message copied. Paste it in WhatsApp, Teams or email.");
+    hideDialog(shareDlg);
+  });
+  document.getElementById("shareClose").addEventListener("click", function () { hideDialog(shareDlg); });
+
+  /* ---------- Option 2: share a list as a file, import a file ---------- */
+  var pickDlg = document.getElementById("pickDialog");
+  var pickList = document.getElementById("pickList");
+  var pickGo = document.getElementById("pickGo");
+  var pickErr = document.getElementById("pickError");
+  var pick = { mode: null, items: [] };
+
+  function openPick(mode, items, intro) {
+    pick.mode = mode;
+    pick.items = items;
+    pickErr.textContent = "";
+    document.getElementById("pickTitle").textContent = mode === "share" ? "Share links" : "Import links";
+    document.getElementById("pickText").textContent = intro;
+    pickList.textContent = "";
+    items.forEach(function (it, i) {
+      var li = document.createElement("li");
+      var label = document.createElement("label");
+      label.className = "pick-item" + (it.disabled ? " is-off" : "");
+      var cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.checked = !!it.checked && !it.disabled;
+      cb.disabled = !!it.disabled;
+      cb.setAttribute("data-i", i);
+      cb.addEventListener("change", updatePickButton);
+      var box = document.createElement("span");
+      box.className = "pick-text";
+      if (it.en) { var en = document.createElement("span"); en.className = "pick-en"; en.lang = "en"; en.textContent = it.en; box.appendChild(en); }
+      if (it.ar) { var ar = document.createElement("span"); ar.className = "pick-ar"; ar.dir = "rtl"; ar.lang = "ar"; ar.textContent = it.ar; box.appendChild(ar); }
+      var u = document.createElement("span"); u.className = "pick-url"; u.textContent = shorten(it.url); u.title = it.url; box.appendChild(u);
+      if (it.tag) { var tg = document.createElement("span"); tg.className = "tag"; tg.textContent = it.tag; box.appendChild(tg); }
+      label.appendChild(cb);
+      label.appendChild(box);
+      li.appendChild(label);
+      pickList.appendChild(li);
+    });
+    var anySelectable = items.some(function (it) { return !it.disabled; });
+    document.getElementById("pickTools").hidden = !anySelectable;
+    updatePickButton();
+    showDialog(pickDlg);
+  }
+  function chosenItems() {
+    var out = [];
+    pickList.querySelectorAll("input[type=checkbox]").forEach(function (cb) {
+      if (cb.checked && !cb.disabled) out.push(pick.items[Number(cb.getAttribute("data-i"))]);
+    });
+    return out;
+  }
+  function updatePickButton() {
+    var n = chosenItems().length;
+    var noun = n === 1 ? "LINK" : "LINKS";
+    if (pick.mode === "share") pickGo.textContent = isDesktopApp() ? "SAVE FILE (" + n + ")" : "SHARE " + n + " " + noun;
+    else pickGo.textContent = "ADD " + n + " " + noun;
+    pickGo.disabled = n === 0;
+  }
+  function setAllPicks(on) {
+    pickList.querySelectorAll("input[type=checkbox]").forEach(function (cb) { if (!cb.disabled) cb.checked = on; });
+    updatePickButton();
+  }
+  document.getElementById("pickAll").addEventListener("click", function () { setAllPicks(true); });
+  document.getElementById("pickNone").addEventListener("click", function () { setAllPicks(false); });
+  document.getElementById("pickCancel").addEventListener("click", function () { hideDialog(pickDlg); });
+  document.getElementById("pickForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var items = chosenItems();
+    if (!items.length) return;
+    if (pick.mode === "share") exportLinks(items);
+    else importLinks(items);
+  });
+
+  function startShareList() {
+    if (!state.links.length) { toast("Add some links first"); return; }
+    var active = state.links.filter(function (l) { return !l.archived; }).sort(function (a, b) { return b.createdAt - a.createdAt; });
+    var archived = state.links.filter(function (l) { return l.archived; }).sort(function (a, b) { return (b.archivedAt || 0) - (a.archivedAt || 0); });
+    var items = active.map(function (l) { return { en: l.en, ar: l.ar, url: l.url, checked: true }; })
+      .concat(archived.map(function (l) { return { en: l.en, ar: l.ar, url: l.url, checked: false, tag: "Archived" }; }));
+    var intro = isDesktopApp()
+      ? "Choose the links to send. Link Box saves them as a file you can attach in WhatsApp or email. The other person opens it with Import links."
+      : "Choose the links to send. Link Box makes a file you can send by WhatsApp, email or any app. The other person opens it with IMPORT.";
+    openPick("share", items, intro);
+  }
+
+  function exportLinks(items) {
+    var data = {
+      app: "Link Box",
+      format: 1,
+      exportedAt: new Date().toISOString(),
+      links: items.map(function (l) { return { en: l.en || "", ar: l.ar || "", url: l.url }; })
+    };
+    var json = JSON.stringify(data, null, 2);
+    var name = "LinkBox-" + items.length + (items.length === 1 ? "-link-" : "-links-") + dateStamp() + ".json";
+    var P = plugins();
+    pickErr.textContent = "";
+
+    if (P.Filesystem && P.Share) {                                        // Android / iPhone app
+      P.Filesystem.writeFile({ path: name, data: json, directory: "CACHE", encoding: "utf8" })
+        .then(function (res) { return P.Share.share({ title: "Link Box links", files: [res.uri], dialogTitle: "Share links" }); })
+        .then(function () { hideDialog(pickDlg); })
+        .catch(function (e) { if (!isCancel(e)) pickErr.textContent = "Couldn't share the file. Try again."; });
+      return;
+    }
+    if (isDesktopApp() && window.linkbox.saveFile) {                      // Windows / Mac
+      window.linkbox.saveFile(name, json).then(function (res) {
+        if (!res || res.canceled) return;
+        hideDialog(pickDlg);
+        toast("File saved. Attach it in WhatsApp or email.", 3200);
+      }, function () { pickErr.textContent = "Couldn't save the file. Try another folder."; });
+      return;
+    }
+    var file = null;                                                      // browsers / home-screen app
+    try { file = new File([json], name, { type: "application/json" }); } catch (e) { file = null; }
+    if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+      navigator.share({ files: [file], title: "Link Box links" })
+        .then(function () { hideDialog(pickDlg); })
+        .catch(function (e) { if (!isCancel(e)) { downloadFile(name, json); hideDialog(pickDlg); } });
+      return;
+    }
+    downloadFile(name, json);
+    hideDialog(pickDlg);
+  }
+  function downloadFile(name, text) {
+    var blob = new Blob([text], { type: "application/json" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+    toast("File downloaded. Attach it in WhatsApp or email.", 3200);
+  }
+
+  var importInput = document.getElementById("importFile");
+  importInput.addEventListener("change", function () {
+    var f = importInput.files && importInput.files[0];
+    importInput.value = "";
+    if (!f) return;
+    if (f.size > 5 * 1024 * 1024) { toast("That file is too big to be a Link Box file", 3000); return; }
+    var reader = new FileReader();
+    reader.onload = function () { reviewImport(String(reader.result || "")); };
+    reader.onerror = function () { toast("Couldn't read that file", 3000); };
+    reader.readAsText(f);
+  });
+
+  function parseImport(text) {
+    var data = JSON.parse(text.replace(/^﻿/, ""));
+    var arr = Array.isArray(data) ? data : (data && Array.isArray(data.links) ? data.links : null);
+    if (!arr) throw new Error("not a Link Box file");
+    var seen = {}, out = [];
+    arr.slice(0, 2000).forEach(function (x) {
+      if (!x || typeof x !== "object") return;
+      var res = normaliseUrl(x.url || x.link || "");
+      if (res.error || seen[res.url]) return;
+      seen[res.url] = true;
+      out.push({ en: cleanTitle(x.en || x.title || ""), ar: cleanTitle(x.ar || ""), url: res.url });
+    });
+    return out;
+  }
+  function reviewImport(text) {
+    var found;
+    try { found = parseImport(text); } catch (e) { toast("That isn't a Link Box file. Choose the .json file you were sent.", 3500); return; }
+    if (!found.length) { toast("No links found in that file", 3000); return; }
+    var fresh = 0;
+    var items = found.map(function (l) {
+      var have = findByUrl(l.url);
+      if (!have) fresh++;
+      return { en: l.en, ar: l.ar, url: l.url, checked: !have, disabled: !!have, tag: have ? "Already in your Link Box" : "" };
+    });
+    var intro = fresh === 0
+      ? "All " + found.length + " links in this file are already in your Link Box."
+      : "Found " + found.length + (found.length === 1 ? " link" : " links") + " in this file. Choose the ones to add.";
+    openPick("import", items, intro);
+  }
+  function importLinks(items) {
+    var now = Date.now(), added = 0;
+    items.forEach(function (l, i) {
+      if (findByUrl(l.url)) return;
+      state.links.push({ id: uid(), en: l.en, ar: l.ar, url: l.url, archived: false, createdAt: now + (items.length - i), archivedAt: null });
+      added++;
+    });
+    if (save()) {
+      hideDialog(pickDlg);
+      state.view = "links";
+      render();
+      toast(added === 1 ? "1 link added" : added + " links added");
+    }
   }
 
   /* ---------- rendering ---------- */
@@ -363,7 +765,7 @@ dialog::backdrop{background:rgba(0,20,60,.45)}
       document.getElementById("emptyTitle").textContent = inArchive ? "Archive is empty" : "No links yet";
       document.getElementById("emptyText").textContent = inArchive
         ? "Links you archive show up here, and you can restore them any time."
-        : "Use ADD NEW LINK to save your first link.";
+        : "Use ADD NEW LINK to save your first link, or IMPORT to add links someone sent you.";
     }
   }
 
@@ -397,15 +799,15 @@ dialog::backdrop{background:rgba(0,20,60,.45)}
 
     var actions = document.createElement("div");
     actions.className = "actions";
-    actions.appendChild(makeBtn("COPY LINK", ICONS.copy, "", function () { copyLink(item.url); }));
+    actions.appendChild(makeBtn("COPY LINK", ICONS.copy, "", function () { copyText(item.url, "Link copied"); }));
     actions.appendChild(makeBtn("OPEN LINK", ICONS.open, "btn-open", function () { openLink(item.url); }));
 
     if (inArchive) {
-      var r = makeBtn("RESTORE", ICONS.restore, "btn-quiet push", function () { setArchived(item.id, false); }, true);
-      actions.appendChild(r);
+      actions.appendChild(makeBtn("RESTORE", ICONS.restore, "btn-quiet", function () { setArchived(item.id, false); }, true));
       actions.appendChild(makeBtn("DELETE", ICONS.trash, "btn-quiet", function () { removeLink(item); }, true));
     } else {
-      actions.appendChild(makeBtn("ARCHIVE", ICONS.archive, "btn-quiet push", function () { setArchived(item.id, true); }, true));
+      actions.appendChild(makeBtn("SHARE", ICONS.share, "", function () { shareLink(item); }, true));
+      actions.appendChild(makeBtn("ARCHIVE", ICONS.archive, "btn-quiet", function () { setArchived(item.id, true); }, true));
     }
 
     bottom.appendChild(a);
@@ -431,20 +833,42 @@ dialog::backdrop{background:rgba(0,20,60,.45)}
     render();
   }
 
+  /* ---------- add dialog ---------- */
   var dlg = document.getElementById("addDialog");
   var fEn = document.getElementById("fEn");
   var fAr = document.getElementById("fAr");
   var fUrl = document.getElementById("fUrl");
   var err = document.getElementById("formError");
+  var addNote = document.getElementById("addNote");
+  var bridge = document.getElementById("appBridge");
+  var sharedCode = null;
 
-  function openAdd() {
-    fEn.value = ""; fAr.value = ""; fUrl.value = ""; err.textContent = "";
-    if (typeof dlg.showModal === "function") dlg.showModal(); else dlg.setAttribute("open", "");
-    fEn.focus();
+  function openAdd(shared) {
+    err.textContent = "";
+    sharedCode = shared ? shared.code : null;
+    fEn.value = shared ? shared.en : "";
+    fAr.value = shared ? shared.ar : "";
+    fUrl.value = shared ? shared.url : "";
+    document.getElementById("addTitle").textContent = shared ? "Add shared link" : "Add new link";
+    document.getElementById("addSub").hidden = !shared;
+    addNote.hidden = true;
+    bridge.hidden = !(shared && isWebVersion());
+    showDialog(dlg);
+    if (!shared) fEn.focus();
   }
-  function closeAdd() {
-    if (typeof dlg.close === "function") dlg.close(); else dlg.removeAttribute("open");
-  }
+  function closeAdd() { hideDialog(dlg); }
+
+  // Pasting a Link Box share link (or the whole shared message) into any box fills in the form.
+  [fEn, fAr, fUrl].forEach(function (input) {
+    input.addEventListener("input", function () {
+      var s = parseShared(input.value);
+      if (!s) return;
+      fEn.value = s.en; fAr.value = s.ar; fUrl.value = s.url;
+      sharedCode = s.code;
+      addNote.hidden = false;
+      err.textContent = "";
+    });
+  });
 
   document.getElementById("addForm").addEventListener("submit", function (e) {
     e.preventDefault();
@@ -452,6 +876,10 @@ dialog::backdrop{background:rgba(0,20,60,.45)}
     if (!en && !ar) { err.textContent = "Add a title in English, Omani Arabic, or both."; fEn.focus(); return; }
     var res = normaliseUrl(fUrl.value);
     if (res.error) { err.textContent = res.error; fUrl.focus(); return; }
+    if (sharedCode) {
+      var have = findByUrl(res.url);
+      if (have) { err.textContent = have.archived ? "This link is already in your Archive." : "This link is already in your Link Box."; return; }
+    }
     state.links.push({ id: uid(), en: en, ar: ar, url: res.url, archived: false, createdAt: Date.now(), archivedAt: null });
     if (save()) {
       closeAdd();
@@ -461,8 +889,25 @@ dialog::backdrop{background:rgba(0,20,60,.45)}
     }
   });
   document.getElementById("cancelAdd").addEventListener("click", closeAdd);
+  document.getElementById("bridgeOpen").addEventListener("click", function () {
+    if (sharedCode) window.location.href = appAddress(sharedCode);
+  });
+  document.getElementById("bridgeCopy").addEventListener("click", function () {
+    if (sharedCode) copyText(appAddress(sharedCode), "Copied. Paste it into the app's Link box.");
+  });
 
-  document.querySelectorAll('[data-action="add"]').forEach(function (b) { b.addEventListener("click", openAdd); });
+  /* ---------- incoming share links ---------- */
+  function handleIncoming(text) {
+    var s = parseShared(text);
+    if (!s) { toast("This share link is incomplete. Ask for it to be sent again.", 3500); return; }
+    [pickDlg, shareDlg].forEach(function (d) { if (d.open) hideDialog(d); });
+    openAdd(s);
+  }
+
+  /* ---------- wire up ---------- */
+  document.querySelectorAll('[data-action="add"]').forEach(function (b) { b.addEventListener("click", function () { openAdd(null); }); });
+  document.querySelectorAll('[data-action="share-list"]').forEach(function (b) { b.addEventListener("click", startShareList); });
+  document.querySelectorAll('[data-action="import"]').forEach(function (b) { b.addEventListener("click", function () { importInput.click(); }); });
   document.querySelectorAll("[data-view]").forEach(function (b) {
     b.addEventListener("click", function () { state.view = b.getAttribute("data-view"); render(); });
   });
@@ -470,9 +915,37 @@ dialog::backdrop{background:rgba(0,20,60,.45)}
   load();
   render();
 
+  // Opened from a share link in a browser: https://…/#add=…
+  function checkHash() {
+    if (!/^#add=/.test(location.hash)) return;
+    var incoming = location.hash;
+    try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+    handleIncoming(incoming);
+  }
+  checkHash();
+  window.addEventListener("hashchange", checkHash);
+
+  // Windows / Mac app opened by a linkbox:// link
+  if (isDesktopApp() && window.linkbox.onSharedLink) {
+    window.linkbox.onSharedLink(handleIncoming);
+    window.linkbox.takePendingLink().then(function (u) { if (u) handleIncoming(u); });
+  }
+
+  // Android / iPhone app
+  var P = plugins();
+  if (P.App) {
+    P.App.getLaunchUrl().then(function (r) { if (r && r.url) handleIncoming(r.url); }).catch(function () {});
+    P.App.addListener("appUrlOpen", function (e) { if (e && e.url) handleIncoming(e.url); });
+    P.App.addListener("backButton", function () {
+      var open = [dlg, pickDlg, shareDlg].filter(function (d) { return d.open; });
+      if (open.length) { open.forEach(hideDialog); return; }
+      if (state.view !== "links") { state.view = "links"; render(); return; }
+      P.App.exitApp();
+    });
+  }
+
   // Offline support when Link Box is opened from a web address (iPhone / Android home-screen install).
-  var isNativeShell = !!window.Capacitor || !!window.linkbox;
-  if ("serviceWorker" in navigator && !isNativeShell &&
+  if ("serviceWorker" in navigator && isWebVersion() &&
       (location.protocol === "https:" || location.hostname === "localhost")) {
     navigator.serviceWorker.register("./sw.js").catch(function () {});
   }
