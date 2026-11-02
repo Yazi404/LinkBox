@@ -6,21 +6,6 @@ Each device keeps its own list of links; they don't sync between devices. Uninst
 
 ---
 
-## Easiest way: let GitHub build everything (no Android Studio, no Mac needed)
-
-This gives you the Android `.apk`, the Windows `.exe`, the Mac `.dmg`, and a web address for iPhone.
-
-1. Create a free account at https://github.com and click **New repository**. Name it `LinkBox`, choose **Public**, and create it.
-2. On the new repository page, click **uploading an existing file**. Drag in **everything inside this LinkBox folder**, including the hidden `.github` folder (on Mac press Cmd+Shift+. in Finder to show it; on Windows turn on View → Hidden items). Click **Commit changes**.
-3. Go to **Settings → Pages**. Under **Source**, choose **GitHub Actions**.
-4. Go to the **Actions** tab. Open **Build Link Box apps** and click **Run workflow** (it also runs by itself after every upload). It takes about 10 minutes.
-5. When it shows a green tick, open the run. At the bottom, under **Artifacts**, download:
-   - **LinkBox-Android** → contains `LinkBox.apk`
-   - **LinkBox-Windows** → installer and portable `.exe`
-   - **LinkBox-Mac** → `.dmg`
-   The **web** step shows the iPhone address, like `https://YOUR-NAME.github.io/LinkBox/`.
-
-### Install on Android
 Copy `LinkBox.apk` to the phone and open it. Allow **Install unknown apps** for your file manager or browser when asked. Android may warn that the app is from an unknown developer; choose **Install anyway**.
 
 ### Install on iPhone / iPad
